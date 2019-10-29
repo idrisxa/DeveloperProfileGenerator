@@ -1,7 +1,12 @@
 const fs = require("fs");
 const axios = require("axios");
 const inquirer = require("inquirer");
-const html_gen = require("./generateHTML");
+const generateHTML = require("./generateHTML");
+//const html_gen = require("./generateHTML");
+const html_gen = new generateHTML;
+
+const pdf = require('html-pdf');
+const options = {format: 'Letter'};
 
 inquirer
 .prompt([
@@ -25,7 +30,7 @@ inquirer
 .then(function({username, colour}){
     console.log(`queryurl is https://api.github.com/users/${username}`);
     let queryURL = `https://api.github.com/users/${username}`;
-    axios.get(queryURL).then(function(response) {
+    axios.get(queryURL).then(function(response, err) {
         console.log(`photo link: ${response.data.avatar_url}`);
         console.log(`Username: ${response.data.login}`);
         console.log(`User location via Google Maps: ${response.data.location}`);
@@ -36,7 +41,23 @@ inquirer
         console.log(`Number of followers: ${response.data.followers}`);
         console.log(`Number of users following: ${response.data.following}`);
 
-        console.log(`${response.data}`)
+        // console.log(`${response.data}`);
+        // console.log(JSON.stringify(response.data));
+        const html = html_gen.generateHTML(response, colour);
+        pdf.create(html, options).toFile('./' + username + '.pdf', function(err, res) {
+            if (err) return console.log(err);
+            console.log(res);
+        });
+
+        if (err){
+            throw err;
+        };
+
+        // response.data.colour = colour;
+
+        // html_gen.generateHTML(response.data);
+
+        console.log(html);
       });
 })
 

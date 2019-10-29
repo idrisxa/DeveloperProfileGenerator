@@ -1,3 +1,12 @@
+class generateHTML {
+  constructor(){
+
+  }
+
+  generateHTML(response, colour){
+
+  
+
 const colors = {
   green: {
     wrapperBackground: "#E6E1C3",
@@ -25,7 +34,7 @@ const colors = {
   }
 };
 
-function generateHTML(data) {
+
   return `<!DOCTYPE html>
 <html lang="en">
    <head>
@@ -52,7 +61,7 @@ function generateHTML(data) {
          height: 100%;
          }
          .wrapper {
-         background-color: ${colors[data.color].wrapperBackground};
+         background-color: ${colors[colour].wrapperBackground};
          padding-top: 100px;
          }
          body {
@@ -94,8 +103,8 @@ function generateHTML(data) {
          display: flex;
          justify-content: center;
          flex-wrap: wrap;
-         background-color: ${colors[data.color].headerBackground};
-         color: ${colors[data.color].headerColor};
+         background-color: ${colors[colour].headerBackground};
+         color: ${colors[colour].headerColor};
          padding: 10px;
          width: 95%;
          border-radius: 6px;
@@ -106,7 +115,7 @@ function generateHTML(data) {
          border-radius: 50%;
          object-fit: cover;
          margin-top: -75px;
-         border: 6px solid ${colors[data.color].photoBorderColor};
+         border: 6px solid ${colors[colour].photoBorderColor};
          box-shadow: rgba(0, 0, 0, 0.3) 4px 1px 20px 4px;
          }
          .photo-header h1, .photo-header h2 {
@@ -149,8 +158,8 @@ function generateHTML(data) {
          .card {
            padding: 20px;
            border-radius: 6px;
-           background-color: ${colors[data.color].headerBackground};
-           color: ${colors[data.color].headerColor};
+           background-color: ${colors[colour].headerBackground};
+           color: ${colors[colour].headerColor};
            margin: 20px;
          }
          
@@ -170,5 +179,56 @@ function generateHTML(data) {
             zoom: .75; 
           } 
          }
-      </style>`
-        }
+      </style>
+      </head>
+   <body>
+       <div class = "container">
+           <div class = "wrapper">
+                <div class="row">
+                    <div class = "photo-header">
+
+                        <img src="${response.data.avatar_url}">
+                        
+                        <h1>${response.data.name}</h1>
+                        <h2>${response.data.bio}</h2>
+                    </div>
+                </div>
+            </div> 
+            <div class = "row">
+                    <div class="col-6">
+                            <div class="card">
+                                    <p>Public Repositories :  ${response.data.public_repos}</p>
+                            </div>
+                    </div>
+                    <div class="col-6">
+                            <div class="card">
+                                    <p>Followers :  ${response.data.followers}</p>
+                            </div>
+                    </div>
+                
+
+            </div>
+            <div class = "row">
+                    <div class="col-6">
+                            <div class="card">
+                                    <p>GitHub Stars :  0</p>
+                            </div>
+                    </div>
+                    <div class="col-6">
+                            <div class="card">
+                                    <p>Following :  ${response.data.following}</p>
+                            </div>
+                    </div>
+                
+
+            </div>
+        </div>
+</body>
+</html>`
+        
+}
+}
+
+module.exports = generateHTML;
+        
+       
